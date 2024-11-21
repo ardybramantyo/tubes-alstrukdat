@@ -22,6 +22,8 @@ void startKata();
 void advKata();
 void salinKata();
 
+int getNum();
+
 #endif
 
 

@@ -2,6 +2,7 @@
 #include "MesinKarakter.h"
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 bool endKata;
 Kata currentKata;
@@ -14,8 +15,8 @@ void ignoreBlank() {
         // puts("n");
 }
 
-void startKata() {
-    start(NULL);
+void startKata(const char* path) {
+    start(path);
     ignoreBlank();
     if(cc == MARK) {
         endKata = true;
@@ -46,16 +47,21 @@ void salinKata() {
     currentKata.length = i;
 }
 
-int main() {
-    startKata();
-    while(!endKata) {
-        for (int i = 0; i < currentKata.length; i++)
-        {
-            // puts("a");
-            printf("%c", currentKata.buffer[i]);
-            // puts("a");
-        }
-        printf("\n");
-        advKata();
-    }
+int getNum() {
+    startKata(NULL);
+    return atoi(currentKata.buffer);
 }
+
+// int main() {
+//     startKata(NULL);
+//     while(!endKata) {
+//         for (int i = 0; i < currentKata.length; i++)
+//         {
+//             // puts("a");
+//             printf("%c", currentKata.buffer[i]);
+//             // puts("a");
+//         }
+//         printf("\n");
+//         advKata();
+//     }
+// }
