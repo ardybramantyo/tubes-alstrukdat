@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "arraydin.h": "c",
-        "queue.h": "c"
+        "queue.h": "c",
+        "mesinkata.h": "c",
+        "mesinkarakter.h": "c"
     }
 }
