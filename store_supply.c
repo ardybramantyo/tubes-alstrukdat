@@ -78,7 +78,7 @@ void StoreSupply(){
 
 
             FILE* store_data_temp;
-            store_data_temp = fopen("inventory.txt", "w");
+            store_data_temp = fopen("temp.txt", "w");
 
             char arrTxt[1024];
             int c_arrTxt;
@@ -90,6 +90,9 @@ void StoreSupply(){
             arrTxt[i] = '\0';
             
             closef(store_data);
+
+            /*------------------------------------------------------DIVIDER--------------------------------------------------------*/
+
             
             int line_number = 0, index = 0;
             while (arrTxt[index] != '\0'){
@@ -100,6 +103,10 @@ void StoreSupply(){
                     index++;
                 }
                 int index_line_last = index;
+
+                if (arrTxt[index] == '\n'){
+                    index++;
+                }
 
                 /*------------------------------------------------------DIVIDER--------------------------------------------------------*/
 
@@ -116,6 +123,7 @@ void StoreSupply(){
                 
                 if (line_number == 1){
                     fprintf(store_data_temp, "%d\n", (N_Store + 1));
+                    fprintf(store_data_temp, "%s\n", arrTxt_line);
                 }
 
                 else if (line_number == N_Store){
