@@ -52,6 +52,8 @@ int getNum() {
     return atoi(currentKata.buffer);
 }
 
+
+
 // int main() {
 //     startKata(NULL);
 //     while(!endKata) {
