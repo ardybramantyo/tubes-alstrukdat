@@ -1,5 +1,9 @@
 #include "MesinKata.h"
 #include "MesinKarakter.h"
+#include "ArrayDin.h"
+#include "ArrayStat.h"
+#include "Barang.h"
+#include "User.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -52,7 +56,26 @@ int getNum() {
     return atoi(currentKata.buffer);
 }
 
+void saveFile(const char *filename, ArrayStat *user, ArrayDin *barang)
+{
+    FILE *fptr = fopen(filename, "w");
 
+    fprintf(fptr, "%d\n", barang->len);
+    for (int i = 0; i < barang->len; ++i)
+    {
+        Barang bjir = (barang->arr)[i];
+        fprintf(fptr, "%d %s\n", bjir.price, bjir.name);
+    }
+
+    fprintf(fptr, "%d\n", user->len);
+    for (int i = 0; i < user->len; ++i)
+    {
+        User bjir = (user->arr)[i];
+        fprintf(fptr, "%d %s %s\n", bjir.money, bjir.name, bjir.password);
+    }
+
+    fclose(fptr);
+}
 
 // int main() {
 //     startKata(NULL);
