@@ -40,10 +40,8 @@ boolean BandingString(const char *String1, const char *String2){
 // Function cek username ada di listuser
 int UsernameAda(const char *Input){
     int Indeks;
-    // int Ada = 0;
     for (Indeks = 0; Indeks < USERS.lengthEff; Indeks++){
         if (BandingString(USERS.ElUser[Indeks].name, Input)){
-            // Ada = 1;
             return (Indeks);
         }
     }
@@ -55,6 +53,7 @@ void Login(){
     char Username[MAX_USER_NAME];
     char Password[MAX_USER_PASS];
     int CurrentindeksUser;
+    int Counter;
 
     if (IndeksUser != 1){
         printf("Anda masil terlogin, logout dulu bosqu\n");
@@ -64,15 +63,19 @@ void Login(){
     printf("== Login ==\n");
     printf("Masukkan Username: \n");
     startKata();
-    // salinKata();
-    // CopyString(Username, currentKata.buffer, currentKata.length);   
     KataKeString(currentKata, Username);
 
+    for (Counter = 0; Counter < USERS.lengthEff; Counter++){
+        if (UsernameAda(Username) == -1){
+            printf("Username tidak ditemukan\n");
+        }
+        else {
+            CurrentindeksUser = UsernameAda(Username);
+        }
+    }
 
     printf("Masukkan Password: \n");
     startKata();
-    // salinKata();
-    // CopyString(Password, currentKata.buffer, currentKata.length); 
     KataKeString(currentKata, Password);
 
     if (BandingString(Password, USERS.ElUser[CurrentindeksUser].password)){
@@ -96,8 +99,6 @@ void Register(){
     printf("== Register ==\n");
     printf("Masukkan Username: \n");
     startKata();
-    // salinKata();
-    // CopyString(Username, currentKata.buffer, currentKata.length);
     KataKeString(currentKata, Username);
 
     for (Counter = 0; Counter < USERS.lengthEff; Counter++){
