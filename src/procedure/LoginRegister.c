@@ -5,7 +5,18 @@
 #include "../adt/User/User.h"
 
 ListUser USERS;
+int IndeksUser;
 
+// Function ubah tipe kata ke string
+void KataKeString(Kata kata, char *String){
+    int Indeks;
+    for (Indeks = 0; Indeks < kata.length; Indeks++){
+        String[Indeks] = kata.buffer[Indeks];
+    }
+    String[kata.length] = '\0';
+}
+
+// Function buat ngebanding string
 boolean BandingString(const char *String1, const char *String2){
     int Indeks;
     while (String1[Indeks] != '\0' && String2[Indeks] != '\0'){
@@ -18,81 +29,90 @@ boolean BandingString(const char *String1, const char *String2){
     return (String1[Indeks] == '\0' && String2[Indeks] == '\0');
 }
 
-void CopyString(char *Hasil, const char *Input, int Panjang){
-    int Indeks;
-    for (Indeks = 0; Indeks < Panjang; Indeks++){
-        Hasil[Indeks] = Input[Indeks];
-    }
-    Hasil[Panjang] = '\0';
-}
+// void CopyString(char *Hasil, const char *Input, int Panjang){
+//     int Indeks;
+//     for (Indeks = 0; Indeks < Panjang; Indeks++){
+//         Hasil[Indeks] = Input[Indeks];
+//     }
+//     Hasil[Panjang] = '\0';
+// }
 
+// Function cek username ada di listuser
 int UsernameAda(const char *Input){
     int Indeks;
-    int Ada = 0;
+    // int Ada = 0;
     for (Indeks = 0; Indeks < USERS.lengthEff; Indeks++){
         if (BandingString(USERS.ElUser[Indeks].name, Input)){
-            Ada = 1;
+            // Ada = 1;
             return (Indeks);
         }
     }
-    return (Ada);
+    return (-1);
 }
 
+// Function login
 void Login(){
     char Username[MAX_USER_NAME];
     char Password[MAX_USER_PASS];
-    int Money;
-    int indeksUser;
+    int CurrentindeksUser;
+
+    if (IndeksUser != 1){
+        printf("Anda masil terlogin, logout dulu bosqu\n");
+        return;
+    }
 
     printf("== Login ==\n");
     printf("Masukkan Username: \n");
     startKata();
-    salinKata();
-    CopyString(Username, currentKata.buffer, currentKata.length);    
+    // salinKata();
+    // CopyString(Username, currentKata.buffer, currentKata.length);   
+    KataKeString(currentKata, Username);
+
 
     printf("Masukkan Password: \n");
     startKata();
-    salinKata();
-    CopyString(Password, currentKata.buffer, currentKata.length); 
+    // salinKata();
+    // CopyString(Password, currentKata.buffer, currentKata.length); 
+    KataKeString(currentKata, Password);
 
-    if (UsernameAda(Username) == 0){
-        printf("Username tidak ditemukan\n");
+    if (BandingString(Password, USERS.ElUser[CurrentindeksUser].password)){
+        IndeksUser = CurrentindeksUser;
+        printf("Login Berhasil, Selamat datang kembali %s\n", Username);
+    }
+    else {
+        printf("Password yang anda masukkan salah\n ");
     }
 
-    else if (UsernameAda(Username) != 0){
-        indeksUser = UsernameAda(Username);
-        if (BandingString(USERS.ElUser[indeksUser].password, Password)){
-            printf("Login Berhasil!, Selamat Datang Kembali! %s\n", Username);
-        }
-        else {
-            printf("Password salah\n");
-        }
-    }
 }
 
+// Function register
 void Register(){
     char Username[MAX_USER_NAME];
     char Password[MAX_USER_PASS];
     int Money = 1000;
+    int Counter;
     User userBaru;
 
     printf("== Register ==\n");
     printf("Masukkan Username: \n");
     startKata();
-    salinKata();
-    CopyString(Username, currentKata.buffer, currentKata.length);
+    // salinKata();
+    // CopyString(Username, currentKata.buffer, currentKata.length);
+    KataKeString(currentKata, Username);
 
-    if (UsernameAda(Username) == 0){
-        printf("Masukkan Password: \n");
-        startKata();
-        salinKata();
-        CopyString(Password, currentKata.buffer, currentKata.length);
-        userBaru = createUser(Username, Password, Money);
-        addUser(&USERS,userBaru);
-        printf("Registrasi Selesai!\n");
+    for (Counter = 0; Counter < USERS.lengthEff; Counter++){
+        if (UsernameAda(Username) != 1){
+            printf("Username sudah terdaftar, buat username lain\n ");
+            return;
+        }
     }
 
-    else if (UsernameAda(Username) != 0){
-        printf("Username sudah digunakan, coba lagi\n");
-    }
+    printf("Masukkan Password: \n");
+    startKata();
+    KataKeString(currentKata, Password);
+
+    userBaru = createUser(Username, Password, Money);
+    addUser(&USERS, userBaru);
+    printf("Registrasi Selesai!\n");
+
 }
