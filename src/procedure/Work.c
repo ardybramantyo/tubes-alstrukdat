@@ -9,64 +9,33 @@
 // MAKRO time.h
 // NULL - Indef
 
-// ASCII A - Z : 65 - 90
-// ASCII a - z : 97 - 122
-
 // Function Buat Waktu Tunggu
 void Jeda(int Detik){
     time_t Waktu;
     Waktu = time(NULL);
     
     while (time(NULL) - Waktu < Detik){
-        // Loop sampe detik
+        // Loop sampe detik yang diinput
     }
 }
 
-// Function Ngebanding Karakter/Huruf
-boolean BandingHuruf(Kata Inp, char *String){
-    int Counter = 0;
-    char CharInput;
-    char CharString;
-    while (Counter < Inp.length && String[Counter] != '\0'){
-        CharInput = Inp.buffer[Counter];
-        CharString = String[Counter];
-
-        if (CharInput >= 'A' && CharInput <= 'Z'){
-            CharInput = CharInput + 32;
-        }
-        if (CharString >= 'A' && CharString <= 'Z'){
-            CharString = CharString + 32;
-        }
-
-        if (CharInput != CharString){
+// Function buat ngebanding string
+boolean BandingString(const char *String1, const char *String2) {
+    int Indeks = 0;
+    if (String1 == NULL || String2 == NULL) {
+        return false;
+    }
+    while (String1[Indeks] != '\0' && String2[Indeks] != '\0') {
+        if (String1[Indeks] != String2[Indeks]) {
             return false;
         }
-        Counter++;
+        Indeks++;
     }
-    return (Counter == Inp.length && String[Counter] == '\0');
+    return (String1[Indeks] == '\0' && String2[Indeks] == '\0');
 }
 
-// Function NgebandingKata
-// boolean BandingKata(Kata Inp){
-//     return (BandingHuruf(Inp, "Evil Lab Assistant") || 
-//             BandingHuruf(Inp, "OWCA Hiring Manager") || 
-//             BandingHuruf(Inp, "Cikapundunginator Caretaker") || 
-//             BandingHuruf(Inp, "Mewing Specialist") || 
-//             BandingHuruf(Inp, "Inator Connoisseur")
-//             );
-// }
-
-// Temporary, Buat Keluar Work
-// boolean CekSelesai(Kata Inp){
-//     return (BandingHuruf(Inp, "Selesai"));
-// }
-
-// Belom gua tes programnya
-
-void Work(){
-    FILE* asdf;
-    asdf = fopen("aa.txt","r");
-    //
+// Function buat nampilin daftar work
+void DaftarWork(){
     printf("Daftar Pekerjaan:\n");
     printf("1. Evil Lab Assistant (pendapatan=100, durasi=14s)\n");
     printf("2. OWCA Hiring Manager (pendapatan=4200, durasi=21s)\n");
@@ -74,33 +43,57 @@ void Work(){
     printf("4. Mewing Specialist (pendapatan=10000, durasi=22s)\n");
     printf("5. Inator Connoisseur (pendapatan=997, durasi=15s)\n");
     printf("\n");
-    printf("Masukkan pekerjaan yang dipilih: ");
+}
 
-    startKata(*asdf);    
+// Function buat ngebaca string per karakter
+// ga pake Word karena harus baca spasinya juga
+void BacaStringPerKarakter(char *String, int Panjang){
+    int Indeks = 0;
+
+    start();
+    while (cc == BLANK || cc == NEW_LINE){
+        adv();
+    }
+    while (cc != BLANK && cc != NEW_LINE && Indeks < Panjang - 1){
+        String[Indeks] = cc;
+        Indeks++;
+        adv();
+    }
+    String[Indeks] = '\0';
+    
+}
+
+void Work(){
+    char InputBuffer[100];
+
+    TampilkanDaftarPekerjaan();
+    printf("Masukkan pekerjaan yang dipilih: ");
+    BacaStringPerKarakter(InputBuffer, sizeof(InputBuffer));    
     printf("\n");
+
     // misal program selesai pake "Selesai"
-    while (!BandingHuruf(currentKata, "Selesai")){
-        if (BandingHuruf(currentKata, "Evil Lab Assistant")){
+    while (!BandingHuruf(InputBuffer, "Selesai")){
+        if (BandingHuruf(InputBuffer, "Evil Lab Assistant")){
             printf("Anda bekerja sebagai Evil Lab Assistant, Menunggu gaji turun :3...\n");
             Jeda(14);
             printf("Horee gaji sudah turun! 100 Rupiah sudah ditambahkan ke akun anda :D\n");
         }
-        else if (BandingHuruf(currentKata, "OWCA Hiring Manager")){
+        else if (BandingHuruf(InputBuffer, "OWCA Hiring Manager")){
             printf("Anda bekerja sebagai OWCA Hiring Manager, Menunggu gaji turun :3...\n");
             Jeda(21);
             printf("Horee gaji sudah turun! 4200 Rupiah sudah ditambahkan ke akun anda :D\n");
         }
-        else if (BandingHuruf(currentKata, "Cikapundunginator Caretaker")){
+        else if (BandingHuruf(InputBuffer, "Cikapundunginator Caretaker")){
             printf("Anda bekerja sebagai Cikapundunginator Caretaker, Menunggu gaji turun :3...\n");
             Jeda(30);
             printf("Horee gaji sudah turun! 7000 Rupiah sudah ditambahkan ke akun anda :D\n");
         }
-        else if (BandingHuruf(currentKata, "Mewing Specialist")){
+        else if (BandingHuruf(InputBuffer, "Mewing Specialist")){
             printf("Anda bekerja sebagai Mewing Specialist, Menunggu gaji turun :3...\n");
             Jeda(22);
             printf("Horee gaji sudah turun! 10000 Rupiah sudah ditambahkan ke akun anda :D\n");
         }
-        else if (BandingHuruf(currentKata, "Inator Connoisseur")){
+        else if (BandingHuruf(InputBuffer, "Inator Connoisseur")){
             printf("Anda bekerja sebagai Inator Connoisseur, Menunggu gaji turun :3...\n");
             Jeda(15);
             printf("Horee gaji sudah turun! 997 Rupiah sudah ditambahkan ke akun anda :D\n");
@@ -108,14 +101,17 @@ void Work(){
         else {
             printf("Tolong input sesuai yang ada di daftar, gausah ngadi-ngadi soalnya emang itu doang :(\n");
         }
-        startKata(*asdf);
+        TampilkanDaftarPekerjaan();
+        printf("Masukkan pekerjaan yang dipilih: ");
+        BacaStringPerKarakter(InputBuffer, sizeof(InputBuffer));    
+        printf("\n");
     }
 
     printf("Sampai Jumpa :D\n");
 
 }
 
-int main(){
-    Work();
-    return 0;
-}
+// int main(){
+//     Work();
+//     return 0;
+// }

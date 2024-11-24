@@ -55,7 +55,7 @@ void Login(){
     int CurrentindeksUser;
     int Counter;
 
-    if (IndeksUser != 1){
+    if (IndeksUser != -1){
         printf("Anda masil terlogin, logout dulu bosqu\n");
         return;
     }
@@ -102,7 +102,7 @@ void Register(){
     KataKeString(currentKata, Username);
 
     for (Counter = 0; Counter < USERS.lengthEff; Counter++){
-        if (UsernameAda(Username) != 1){
+        if (UsernameAda(Username) != -1){
             printf("Username sudah terdaftar, buat username lain\n ");
             return;
         }
