@@ -1,20 +1,18 @@
 #include <stdio.h>
-#include "ArrayDin.h"
-#include "Barang.h"
-#include "mesinkata.h"
+#include "../adt/MesinKata/MesinKata.h"
+#include "../adt/MesinKarakter/MesinKarakter.h"
+#include "../adt/ArrayDin/ArrayDin.h"
+#include "../adt/Barang/barang.h"
+#include "../../boolean.h"
 
 void store_remove(ArrayDin *arr) {
-    char hapusItem[MAX_BARANG_LEN];
-
     printf("Nama barang yang akan dihapus: ");
-    startKata(); 
-    salinKata();
-    CopyString(hapusItem, currentKata.buffer, currentKata.length);
+    startKataMajemuk(NULL); 
 
     int found = -1; // Indeks barang dalam array
     for (int i = 0; i < getArrayDinLength(*arr); i++) {
         Barang currentBarang = getArrayDinElmt(*arr, i);
-        if (BandingString(currentBarang.name, hapusItem)) {
+        if (BandingString(currentKata, currentBarang.name)) {
             found = i;
             break;
         }
@@ -22,8 +20,11 @@ void store_remove(ArrayDin *arr) {
 
     if (found != -1) {
         ArrayDinDeleteElem(arr, found);
-        printf("%s telah berhasil dihapus.\n", hapusItem);
+        PrintKata(currentKata);
+        printf(" telah berhasil dihapus.\n");
     } else {
-        printf("Toko tidak menjual %s\n", hapusItem);
+        printf("Toko tidak menjual ");
+        PrintKata(currentKata);
+        printf(".\n");
     }
 }

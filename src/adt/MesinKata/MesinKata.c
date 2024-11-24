@@ -1,12 +1,5 @@
 #include "MesinKata.h"
-#include "MesinKarakter.h"
-#include "ArrayDin.h"
-#include "ArrayStat.h"
-#include "Barang.h"
-#include "User.h"
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
+
 
 bool endKata;
 Kata currentKata;
@@ -30,6 +23,17 @@ void startKata(const char* path) {
     }
 }
 
+void startKataMajemuk(const char* path) {
+    start(path);
+    ignoreBlank();
+    if(cc == MARK) {
+        endKata = true;
+    } else {
+        endKata = false;
+        salinKataMajemuk();
+    }
+}
+
 void advKata() {
     ignoreBlank();
     if(cc == MARK) {
@@ -49,6 +53,46 @@ void salinKata() {
     }
 
     currentKata.length = i;
+}
+
+void salinKataMajemuk() {
+    int i = 0;
+    while((cc != MARK)) {
+        currentKata.buffer[i] = cc;
+        adv();
+        ++i;
+    }
+    currentKata.length = i;
+}
+
+boolean BandingString(Kata kata, char *s){
+    boolean found = true;
+    int i = 0;
+    while (i<kata.length && found){
+        if (kata.buffer[i]!=s[i]){
+            found = false;
+        }
+        else {
+            i++;
+        }
+    } return found;
+}
+
+boolean BandingKata(Kata input1, Kata input2){
+    if (input1.length != input2.length){
+        return false;
+    } else {
+        boolean found = true;
+        int i = 0;
+        while (i<input1.length && found){
+            if (input1.buffer[i]!=input2.buffer[i]){
+                found = false;
+            }
+            else {
+                i++;
+            }
+        } return found;
+    }
 }
 
 int getNum() {
@@ -75,6 +119,12 @@ void saveFile(const char *filename, ArrayStat *user, ArrayDin *barang)
     }
 
     fclose(fptr);
+}
+
+void PrintKata(Kata kata){
+    for (int i = 0; i<kata.length; i++){
+        printf("%c", kata.buffer[i]);
+    }
 }
 
 // int main() {
